@@ -1,10 +1,5 @@
-
 const Document = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Document;

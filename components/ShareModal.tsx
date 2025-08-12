@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Dialog,
   DialogContent,
@@ -7,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import { useSelf } from "@liveblocks/react/suspense";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
@@ -46,7 +48,7 @@ const ShareModal = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           className="gradient-blue flex h-9 gap-1 px-4"
           disabled={currentUserType !== "editor"}
@@ -68,6 +70,7 @@ const ShareModal = ({
             Select which users can view and edit this document
           </DialogDescription>
         </DialogHeader>
+
         <Label htmlFor="email" className="mt-6 text-blue-100">
           Email address
         </Label>
@@ -91,6 +94,7 @@ const ShareModal = ({
             {loading ? "Sending..." : "Invite"}
           </Button>
         </div>
+
         <div className="my-2 space-y-2">
           <ul className="flex flex-col">
             {collaborators.map((collaborator) => (

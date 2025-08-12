@@ -1,6 +1,6 @@
 "use client";
 
-import { ClientSideSuspense, RoomProvider } from "@liveblocks/react";
+import { ClientSideSuspense, RoomProvider } from "@liveblocks/react/suspense";
 import { Editor } from "@/components/editor/Editor";
 import Header from "@/components/Header";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
@@ -18,9 +18,9 @@ const CollaborativeRoom = ({
   users,
   currentUserType,
 }: CollaborativeRoomProps) => {
+  const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,6 +30,7 @@ const CollaborativeRoom = ({
   ) => {
     if (e.key === "Enter") {
       setLoading(true);
+
       try {
         if (documentTitle !== roomMetadata.title) {
           const updatedDocument = await updateDocument(roomId, documentTitle);
@@ -39,7 +40,7 @@ const CollaborativeRoom = ({
           }
         }
       } catch (error) {
-        console.log("Error updating title:", error);
+        console.error(error);
       }
 
       setLoading(false);
@@ -62,7 +63,7 @@ const CollaborativeRoom = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [documentTitle, roomId]);
+  }, [roomId, documentTitle]);
 
   useEffect(() => {
     if (editing && inputRef.current) {
@@ -103,6 +104,7 @@ const CollaborativeRoom = ({
                   width={24}
                   height={24}
                   onClick={() => setEditing(true)}
+                  className="pointer"
                 />
               )}
 
@@ -114,12 +116,14 @@ const CollaborativeRoom = ({
             </div>
             <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
               <ActiveCollaborators />
+
               <ShareModal
                 roomId={roomId}
                 collaborators={users}
                 creatorId={roomMetadata.creatorId}
                 currentUserType={currentUserType}
               />
+
               <SignedOut>
                 <SignInButton />
               </SignedOut>

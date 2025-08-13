@@ -15,7 +15,7 @@ export const createDocument = async ({
   try {
     const metadata = {
       creatorId: userId,
-      email: email,
+      email,
       title: "Untitled",
     };
 
@@ -33,7 +33,7 @@ export const createDocument = async ({
 
     return parseStringify(room);
   } catch (error) {
-    console.log(`Error happened while creating a room ${error}`);
+    console.log(`Error happened while creating a room: ${error}`);
   }
 };
 
@@ -55,7 +55,7 @@ export const getDocument = async ({
 
     return parseStringify(room);
   } catch (error) {
-    console.log(`Error happened while fetching a room ${error}`);
+    console.log(`Error happened while getting a room: ${error}`);
   }
 };
 
@@ -63,7 +63,7 @@ export const updateDocument = async (roomId: string, title: string) => {
   try {
     const updatedRoom = await liveblocks.updateRoom(roomId, {
       metadata: {
-        title: title,
+        title,
       },
     });
 
@@ -71,7 +71,7 @@ export const updateDocument = async (roomId: string, title: string) => {
 
     return parseStringify(updatedRoom);
   } catch (error) {
-    console.log(`Error happened while updating a room ${error}`);
+    console.log(`Error happened while updating a room: ${error}`);
   }
 };
 
@@ -96,14 +96,29 @@ export const updateDocumentAccess = async ({
       [email]: getAccessType(userType) as AccessType,
     };
 
-    const room = await liveblocks.updateRoom(roomId, { usersAccesses });
+    const room = await liveblocks.updateRoom(roomId, {
+      usersAccesses,
+    });
 
     if (room) {
-      // TODO: Send a notification to the user
+      const notificationId = nanoid();
+
+      await liveblocks.triggerInboxNotification({
+        userId: email,
+        kind: "$documentAccess",
+        subjectId: notificationId,
+        activityData: {
+          userType,
+          title: `You have been granted ${userType} access to the document by ${updatedBy.name}`,
+          updatedBy: updatedBy.name,
+          avatar: updatedBy.avatar,
+          email: updatedBy.email,
+        },
+        roomId,
+      });
     }
 
     revalidatePath(`/documents/${roomId}`);
-
     return parseStringify(room);
   } catch (error) {
     console.log(`Error happened while updating a room access: ${error}`);
@@ -131,7 +146,6 @@ export const removeCollaborator = async ({
     });
 
     revalidatePath(`/documents/${roomId}`);
-
     return parseStringify(updatedRoom);
   } catch (error) {
     console.log(`Error happened while removing a collaborator: ${error}`);

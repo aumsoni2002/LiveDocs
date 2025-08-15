@@ -2,6 +2,7 @@ import AddDocumentBtn from "@/components/AddDocumentBtn";
 import { DeleteModal } from "@/components/DeleteModal";
 import Header from "@/components/Header";
 import Notifications from "@/components/Notifications";
+import { Button } from "@/components/ui/button";
 import { getDocuments } from "@/lib/actions/room.actions";
 import { dateConverter } from "@/lib/utils";
 import { SignedIn, UserButton } from "@clerk/nextjs";
@@ -12,10 +13,7 @@ import { redirect } from "next/navigation";
 
 const Home = async () => {
   const clerkUser = await currentUser();
-
-  if (!clerkUser) {
-    redirect("/sign-in");
-  }
+  if (!clerkUser) redirect("/sign-in");
 
   const roomDocuments = await getDocuments(
     clerkUser.emailAddresses[0].emailAddress
@@ -31,6 +29,7 @@ const Home = async () => {
           </SignedIn>
         </div>
       </Header>
+
       {roomDocuments.data.length > 0 ? (
         <div className="document-list-container">
           <div className="document-list-title">
@@ -40,7 +39,6 @@ const Home = async () => {
               email={clerkUser.emailAddresses[0].emailAddress}
             />
           </div>
-
           <ul className="document-ul">
             {roomDocuments.data.map(({ id, metadata, createdAt }: any) => (
               <li key={id} className="document-list-item">
@@ -56,7 +54,6 @@ const Home = async () => {
                       height={40}
                     />
                   </div>
-
                   <div className="space-y-1">
                     <p className="line-clamp-1 text-lg">{metadata.title}</p>
                     <p className="text-sm font-light text-blue-100">
@@ -64,7 +61,6 @@ const Home = async () => {
                     </p>
                   </div>
                 </Link>
-
                 <DeleteModal roomId={id} />
               </li>
             ))}

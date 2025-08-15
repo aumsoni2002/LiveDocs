@@ -3,7 +3,6 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import { parseStringify } from "../utils";
 import { liveblocks } from "../liveblocks";
-import { parse } from "path";
 
 export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
   try {
@@ -14,7 +13,7 @@ export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
     const users = data.map((user) => ({
       id: user.id,
       name: `${user.firstName} ${user.lastName}`,
-      email: user.emailAddresses[0]?.emailAddress,
+      email: user.emailAddresses[0].emailAddress,
       avatar: user.imageUrl,
     }));
 
@@ -24,7 +23,7 @@ export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
 
     return parseStringify(sortedUsers);
   } catch (error) {
-    console.log(`Error fetching Clerk users: ${error}`);
+    console.log(`Error fetching users: ${error}`);
   }
 };
 
@@ -39,6 +38,7 @@ export const getDocumentUsers = async ({
 }) => {
   try {
     const room = await liveblocks.getRoom(roomId);
+
     const users = Object.keys(room.usersAccesses).filter(
       (email) => email !== currentUser
     );

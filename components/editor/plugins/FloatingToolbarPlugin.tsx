@@ -17,7 +17,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
-export default function FloatingToolbarPlugin() {
+export default function FloatingToolbar() {
   const [editor] = useLexicalComposerContext();
 
   const [range, setRange] = useState<Range | null>(null);

@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📄 LiveDocs – Real-Time Collaborative Document Editor
 
-## Getting Started
+LiveDocs is a modern **real-time collaborative document editor** built with **Next.js**, **Clerk**, and **Liveblocks**.  
+It allows multiple users to edit, share, and manage documents seamlessly — with secure authentication, live presence indicators, and smooth real-time syncing.
 
-First, run the development server:
+🔗 **Live Demo:** [https://live-docs-six-gamma.vercel.app](https://live-docs-six-gamma.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Real-Time Collaboration** – Multiple users can work on the same document at once with changes reflected instantly.  
+- **Presence Indicators** – See active collaborators and their live cursors.  
+- **Secure Authentication** – Login with Google via **Clerk**.  
+- **Role-Based Access Control** – Document creators can manage permissions and collaborators.  
+- **Document Management** – Create, edit, share, and delete documents.  
+- **Conflict-Free Editing** – Powered by **Liveblocks** to ensure smooth collaboration without overwriting changes.  
+- **Responsive Design** – Works beautifully across desktop, tablet, and mobile devices.  
+- **Scalable & Cloud-Ready** – Deployed on **Vercel** with environment-based configuration.  
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 🛠 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** Next.js 14, React  
+- **Real-Time Backend:** Liveblocks  
+- **Authentication & Security:** Clerk  
+- **UI & Styling:** Tailwind CSS, Shadcn UI components  
+- **Hosting & Deployment:** Vercel  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 📚 Key Learning Outcomes
 
-## Deploy on Vercel
+- Gained practical experience with **real-time collaboration** using Liveblocks.  
+- Learned how to implement **role-based authentication** with Clerk.  
+- Understood how to **design scalable architectures** using Next.js for production-ready apps.  
+- Improved debugging skills by solving **real-world sync and auth issues**.  
+- Built a complete project from **frontend to deployment**, with a focus on usability and performance.  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 👨‍💻 About This Project
+
+This project was built as a way to go beyond “tutorial projects” and create something people could actually use.  
+It reflects my growth in **full-stack development**, problem-solving, and building with industry-standard tools.  
+
+If you’d like to connect, you can find me here:  
+**Aum Soni** – [LinkedIn](https://linkedin.com/in/aum-soni)  
+
+---
+
+⭐ If you found this project interesting, consider giving it a star!

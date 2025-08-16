@@ -58,3 +58,16 @@ export const getDocumentUsers = async ({
     console.log(`Error fetching document users: ${error}`);
   }
 };
+
+export const checkClerkUserExists = async (email: string) => {
+  try {
+    const { data } = await clerkClient.users.getUserList({
+      emailAddress: [email],
+    });
+
+    return data.length > 0; // true = exists, false = doesn't
+  } catch (error) {
+    console.error("Error checking user:", error);
+    return false;
+  }
+};

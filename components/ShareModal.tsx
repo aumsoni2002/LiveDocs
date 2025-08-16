@@ -18,6 +18,7 @@ import { Input } from "./ui/input";
 import UserTypeSelector from "./UserTypeSelector";
 import Collaborator from "./Collaborator";
 import { updateDocumentAccess } from "@/lib/actions/room.actions";
+import { checkClerkUserExists } from "@/lib/actions/user.actions";
 
 const ShareModal = ({
   roomId,
@@ -29,21 +30,38 @@ const ShareModal = ({
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [email, setEmail] = useState("");
   const [userType, setUserType] = useState<UserType>("viewer");
+  const [error, setError] = useState(""); // Error message state
 
   const shareDocumentHandler = async () => {
     setLoading(true);
+    setError("");
 
-    await updateDocumentAccess({
-      roomId,
-      email,
-      userType: userType as UserType,
-      updatedBy: user.info,
-    });
+    const exists = await checkClerkUserExists(email);
 
-    setLoading(false);
+    if (!exists) {
+      setError("User has not signed up yet.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await updateDocumentAccess({
+        roomId,
+        email,
+        userType: userType as UserType,
+        updatedBy: user.info,
+      });
+
+      setEmail("");
+      setUserType("viewer");
+      // setOpen(false); // optional: close modal after invite
+    } catch (err) {
+      console.error("Error sharing document:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,16 +89,23 @@ const ShareModal = ({
           </DialogDescription>
         </DialogHeader>
 
-        <Label htmlFor="email" className="mt-6 text-blue-100">
-          Email address
-        </Label>
+        <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <Label htmlFor="email" className="text-blue-100">
+            Email address
+          </Label>
+          {error && <p className="text-xs text-red-500 italic">{error}</p>}
+        </div>
+
         <div className="flex items-center gap-3">
           <div className="flex flex-1 rounded-md bg-dark-400">
             <Input
               id="email"
               placeholder="Enter email address"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError(""); // Clear error on typing
+              }}
               className="share-input"
             />
             <UserTypeSelector userType={userType} setUserType={setUserType} />

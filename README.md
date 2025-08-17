@@ -1,7 +1,7 @@
 # 📄 LiveDocs – Real-Time Collaborative Document Editor
 
 LiveDocs is a modern **real-time collaborative document editor** built with **Next.js**, **Clerk**, and **Liveblocks**.  
-It allows multiple users to edit, share, and manage documents seamlessly — with secure authentication, live presence indicators, and smooth real-time syncing.
+It allows multiple users to edit, share, and manage documents seamlessly - with secure authentication, live presence indicators, and smooth real-time syncing.
 
 🔗 **Live Demo:** [https://live-docs-six-gamma.vercel.app](https://live-docs-aum-soni.vercel.app)
 
